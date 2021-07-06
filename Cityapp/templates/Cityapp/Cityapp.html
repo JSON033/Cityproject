@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+   
+
+
+</head>
+
+<body class="">
+    
+    <section class="hero is-dark">
+        <div class="hero-body">
+            <div class="container">
+            <a href="{% url 'index' %}">
+                <h1 class="title">
+                    What's the City like?	
+                </h1>
+            </a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section" style ="background-color: gray ; color: whitesmoke" >
+        <div class="container " >
+                <div class="columns">
+                    <div class="column is-offset-4 is-4">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    {{form.name}}
+                                </div>
+                                <div class="control">
+                                    <button type = 'submit' class="button is-info">
+
+                                        Add City
+                                    </button>
+                                </div>
+                            </div>
+                            {% if notification %}
+                            <div class="notification {{message_class}}">{{notification}}</div>
+                            {% endif %}
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </section>
+    <section class="section"style ="background-color: gray ; color: whitesmoke">
+        <div class="container ">
+            
+                <div class="columns is-multiline">
+                    {% for city_data in cities %}
+                    <div class="column  is-4">
+                        
+                        <div class="box " style ="background-color: #00d1b2 ; color: whitesmoke">
+                            <article class="media ">
+                                <div class="media-left">
+                                    <figure class="image is-50x50">
+                                        <img src="http://openweathermap.org/img/w/{{city_data.icon}}.png" alt="Image">
+                                    </figure>
+                                </div>
+                                <div class="media-content ">
+                                    <div class="content">
+                                        <p>
+                                            <span class="title ">{{city_data.city}} , {{city_data.country}}</span>
+                                            
+                                            <br>
+                                            <span class="subtitle">{{city_data.temperature}}° F</span>
+                                            <br> {{city_data.description}}
+                                            <br> {{city_data.time}}
+                                            <img src="http://openweathermap.org/images/flags/{{city_data.countryicon}}.png">
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="media-right">
+                                    <a href="{% url 'DeleteCity' city_data.city %}">
+                                        <button class="delete"></button>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+                       
+                    </div>
+                    {% endfor %}
+            </div> 
+        </div>
+    </section>
+    <footer class="footer" style ="background-color: #363636">
+    </footer>
+</body>
+
+</html>
